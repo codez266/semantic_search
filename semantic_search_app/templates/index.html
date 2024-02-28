@@ -30,6 +30,10 @@
         font-size: 0.9rem;
         color: #555;
     }
+
+    #loadingSpinner {
+        display: none;
+    }
 </style>
 <body>
     <div class="container mt-5">
@@ -41,6 +45,12 @@
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary" type="button" id="searchButton">Search</button>
                 </div>
+            </div>
+        </div>
+
+        <div id="loadingSpinner" class="text-center">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
             </div>
         </div>
 
@@ -56,9 +66,12 @@
         $(document).ready(function(){
             $("#searchButton").click(function(){
                 var searchText = $("#searchBox").val();
+                $("#loadingSpinner").show(); // Show the spinner
 
                 $.get("/search/search?query=" + searchText, function(response) {
                         displayResults(response);
+                    }).done(function() {
+                        $("#loadingSpinner").hide(); // Hide the spinner once the request is complete
                     })
             });
 
